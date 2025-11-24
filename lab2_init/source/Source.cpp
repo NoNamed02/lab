@@ -5,8 +5,11 @@
 
 #include <GL/gl3w.h>
 #include <GLFW/glfw3.h>
+#include <memory>
 
 #include "MyGlWindow.h"
+
+std::unique_ptr<MyGlWindow> win;
 
 int main(void)
 {
@@ -28,7 +31,10 @@ int main(void)
 		glfwTerminate();
 		return -1;
 	}
+
+	// create opengl context / what is context? = big struect
 	glfwMakeContextCurrent(window);
+	// init helper = loader for using opengl's func 
 	if (gl3wInit())
 	{
 		fprintf(stderr, "failed to initialize OpenGL\n");
@@ -41,18 +47,25 @@ int main(void)
 	}
 	printf("OpenGL %s, GLSL %s\n", glGetString(GL_VERSION),
 	glGetString(GL_SHADING_LANGUAGE_VERSION));
+	// 모니터 refesh rate sync
 	glfwSwapInterval(1); //enable vsync
-	printf("OpenGL %s, GLSL %s\n",
-	glGetString(GL_VERSION),glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+	// create object - myglwindow object
+	// win = new MyGlWindow(width, height);
+	win = std::make_unique<MyGlWindow>(width, height);
+	// close 되기 전까지 프로그램 실행
 	while (!glfwWindowShouldClose(window))
 	{
+		// call draw() func every freame
+		win -> draw();
+
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
 		/* Poll for and process events */
 		glfwPollEvents();
 	}
 	glfwDestroyWindow(window);
-	glfwTerminate();	
+	glfwTerminate();
 	return 0;
 }
 

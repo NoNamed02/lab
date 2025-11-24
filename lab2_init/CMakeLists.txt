@@ -28,8 +28,4 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE glm::glm glfw unofficial::gl3w::gl3w)
 
-
-
-
-
-
+file(COPY shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

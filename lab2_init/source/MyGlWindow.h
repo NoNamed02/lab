@@ -11,7 +11,7 @@ public:
 	MyGlWindow(int w, int h);
 	void draw();
 private:
-
+	GLuint vaohandle;
 	
 	std::unique_ptr<ShaderProgram> shaderProgram;
 
